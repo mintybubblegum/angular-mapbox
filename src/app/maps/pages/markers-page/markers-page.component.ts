@@ -64,12 +64,15 @@ export class MarkersPageComponent {
     const marker = new Marker({
       color: color,
       draggable: true
+      
     })
       .setLngLat( lngLat )
       .addTo( this.map );
 
       this.addingMarkers.push({ color, marker })
       this.saveToLocalStorage();
+
+      marker.on('dragend', () => this.saveToLocalStorage() ); //para que los marcadores se guarden en localstorage en el último punto donde fueron dejados
   }
 
   deleteMarker( index: number ) {
