@@ -1,6 +1,11 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LngLat, Map, Marker } from 'mapbox-gl';
 
+interface MarkerAndColor {
+  color: string;
+  marker: Marker;
+}
+
 @Component({
   templateUrl: './markers-page.component.html',
   styleUrls: ['./markers-page.component.css']
@@ -8,6 +13,8 @@ import { LngLat, Map, Marker } from 'mapbox-gl';
 export class MarkersPageComponent {
 
   @ViewChild('map') divMap?: ElementRef;
+
+  public addingMarkers: MarkerAndColor[] = [];
 
   public map?: Map;
   public currentLngLat: LngLat = new LngLat(-2.59665,51.45523);
@@ -41,7 +48,8 @@ export class MarkersPageComponent {
     const color = '#xxxxxx'.replace(/x/g, y=>(Math.random()*16|0).toString(16));
     const lngLat =  this.map?.getCenter();
 
-    this.addMarker( lngLat, color );
+    this.addMarker( lngLat, color ); //añade markers pero no los guarda. Si actualizamos se pierden
+
   }
 
 
@@ -54,6 +62,13 @@ export class MarkersPageComponent {
     })
       .setLngLat( lngLat )
       .addTo( this.map );
+
+      this.addingMarkers.push({ color, marker })
+  }
+
+  deleteMarker( index: number ) {
+    this.addingMarkers[index].marker.remove(); //para eliminar marcador/pin
+    this.addingMarkers.splice( index, 1 ); //para eliminar etiqueta de marcador
   }
 
 }
