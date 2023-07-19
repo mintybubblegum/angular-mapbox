@@ -3,12 +3,16 @@
     <div class="col-10">
 
         <h1>Standalone Component - Page</h1>
-        <hr>
+        <hr> 
 
         <div class="row">
             <div class="col">
                 <p>*This component doesn't need to be imported in modules</p>
                 <p>That happens because it's its own module {{ 1 + 1 }}</p>
+            
+                <!-- Contador -->
+                <counter-alone [counter]="25"/>
+
             </div>
         </div>
 
